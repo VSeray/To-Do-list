@@ -1,68 +1,100 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#Add {
-  color: #000;
-}
-
-input {
-  border: 0;
-  border-bottom: 1px solid;
-  border-color: #ebebeb;
-  padding: 9px;
-}
-
-ul {
-  padding: 0;
-  margin: 0;
-}
-
-ul li {
-  list-style: none;
-  border-color: #ebebeb;
-  margin: 0;
-  border-bottom: 1px solid #ebebeb;
-}
-
-div {
-  background-color: white;
-}
-
-main {
-  background-color: #f6f6f6;
-  box-shadow: 7px 4px 7px 3px #e6e6e6;
-  width: 320px;
-  margin-top: 20vh;
-}
-
 body {
+  background-color: #f6f6f6;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
 }
 
-button {
-  background-color: #f6f6f6;
-  border-style: none;
-  padding: 9px;
-  color: #9d9d9d;
+.todo-list-con {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  width: 40%;
+  min-width: 280px;
+  height: auto;
+  padding: 20px 0 0 0;
+  background: rgba(225, 253, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 88, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-button:hover,
-button:active {
-  color: black;
-  -webkit-text-decoration-line: underline; /* Safari */
-  text-decoration-line: underline;
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #5c5c5c;
+  padding: 10px 20px;
 }
 
-.hidden {
-  display: none;
+.heading {
+  margin: 0;
 }
 
-ul li label input {
-  border: 0;
+.add-item {
+  width: 100%;
+  height: 30px;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.add-item::placeholder {
+  font-style: italic;
+}
+
+.enter-button {
+  transform: rotate(90deg);
+  border: none;
+  background: none;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.description {
+  margin: 0;
+  padding: 15px 20px 0 20px;
+  width: 100%;
+  border: none;
+  background: none;
+  resize: none;
+  outline: none;
+}
+
+.task-button,
+.clear,
+.enter-button {
+  padding: 5px;
+  font-size: 15px;
+  border: none;
+  color: #414141;
+  background: none;
+}
+
+.clear-completed {
+  margin: 0;
+  width: 100%;
+  height: 50px;
+  color: #414141;
+  border: none;
+  background: #f6f6f6;
+}
+
+.clear:hover i,
+.enter-button:hover .level.down,
+.clear-completed:hover {
+  font-weight: bold;
+  color: #2f00ff;
+}
+
+.task-button:hover .trash.alternate {
+  color: rgb(238, 255, 0);
 }

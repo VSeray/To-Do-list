@@ -1,103 +1,126 @@
 import './style.css';
 
-let ToDoArray = JSON.parse(localStorage.getItem('ToDoArray') || '[]');
-let title = JSON.parse(localStorage.getItem('title') || '');
-if (!ToDoArray.length) {
-  document.querySelector('.Activity-list').classList.add('hidden');
-} else {
-  document.querySelector('.Activity-list').classList.remove('hidden');
-}
-document.querySelector('#whatToDo').value = title;
+let dataList = [
+  {
+    index: 0,
+    description: 'Wash The Dishes',
+    completed: false,
+  },
+  {
+    index: 1,
+    description: 'Read For 30 mins',
+    completed: false,
+  },
+];
 
-function CreateOb({ description, index }) {
-  this.description = description;
-  this.completed = false;
-  this.index = index;
-}
+const index = () => {
+  for (let i = 0; i < dataList.length; i + 1) {
+    dataList[i].index = i;
+  }
+};
 
-function displayOnScreen(element) {
-  const ul = document.querySelector('.form_');
-  const li = document.createElement('li');
-  li.classList.add('toDo');
-  const checkbox = document.createElement('input');
-  const br = document.createElement('br');
-  const image = document.createElement('img');
-  image.setAttribute('src', 'icons/delete.png');
-  image.style.width = '1rem';
-  image.style.float = 'right';
-  image.style.marginTop = '7px';
-  checkbox.setAttribute('type', 'checkbox');
-  checkbox.setAttribute('name', 'check');
-  li.style.padding = '9px';
-  const input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  const label = document.createElement('label');
-  label.setAttribute('for', 'check');
-  input.addEventListener('change', () => {
-    element.description = input.value;
-    localStorage.setItem('ToDoArray', JSON.stringify(ToDoArray));
+const saveToLocalStorage = () => {
+  localStorage.setItem('todo_list', JSON.stringify(dataList));
+};
+
+const addToDo = (input) => {
+  const dataObj = {
+    index: 0,
+    description: '',
+    completed: false,
+  };
+
+  dataObj.description = input;
+  dataList.push(dataObj);
+  index();
+  saveToLocalStorage();
+  window.location.reload();
+};
+
+const component = () => {
+  const todoContainer = document.querySelector('.todo-list-con');
+  let element = document.createElement('li');
+  element.className = 'todo-item';
+
+  const heading = document.createElement('h2');
+  heading.className = 'heading';
+  heading.textContent = 'Today\'s To Do';
+  element.appendChild(heading);
+
+  const clear = document.createElement('button');
+  clear.className = 'clear';
+  clear.innerHTML = '<i class=\'sync alternate icon\'></i>';
+  element.appendChild(clear);
+  todoContainer.appendChild(element);
+
+  element = document.createElement('li');
+  element.className = 'todo-item';
+
+  const addItem = document.createElement('input');
+  addItem.className = 'add-item';
+  addItem.placeholder = 'Add to your list';
+  addItem.value = '';
+  element.appendChild(addItem);
+
+  const btn = document.createElement('button');
+  btn.className = 'enter-button';
+  btn.innerHTML = '<i class=\'level down alternate icon\'></i>';
+  element.appendChild(btn);
+  todoContainer.appendChild(element);
+
+  addItem.addEventListener('keydown', (e) => {
+    if (e.keyCode === 13) {
+      addToDo(addItem.value);
+    }
   });
-  input.value = element.description;
 
-  label.style.marginLeft = '1rem';
-  checkbox.addEventListener('click', () => {
-    if (input.style.webkitTextDecorationLine !== 'line-through') {
-      input.style.webkitTextDecorationLine = 'line-through';
-      input.style.textDecorationLine = 'line-through';
-      element.completed = true;
-      input.style.color = '#616275';
-      li.classList.add('remove');
+  btn.addEventListener('click', () => {
+    addToDo(addItem.value);
+  });
+
+  dataList.forEach((todo) => {
+    element = document.createElement('li');
+    element.className = 'todo-item';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'checkbox';
+    checkbox.checked = todo.completed;
+    element.appendChild(checkbox);
+
+    const description = document.createElement('textarea');
+    description.className = 'description';
+    description.rows = 'auto';
+    description.value = todo.description.toLowerCase().charAt(0).toUpperCase();
+    description.value += todo.description.slice(1);
+    element.appendChild(description);
+
+    const taskButton = document.createElement('button');
+    taskButton.className = 'task-button';
+    taskButton.innerHTML = '<i class=\'ellipsis vertical icon\'></i>';
+    element.appendChild(taskButton);
+
+    todoContainer.appendChild(element);
+  });
+
+  element = document.createElement('li');
+
+  const clearCompleted = document.createElement('button');
+  clearCompleted.className = 'clear-completed';
+  clearCompleted.innerHTML = 'Clear all completed';
+  element.appendChild(clearCompleted);
+  todoContainer.appendChild(element);
+};
+
+const onPageLoad = () => {
+  window.onload = () => {
+    if (localStorage.getItem('todo_list') !== null) {
+      dataList = JSON.parse(localStorage.getItem('todo_list'));
+      component();
     } else {
-      input.style.webkitTextDecorationLine = 'none';
-      input.style.textDecorationLine = 'none';
-      element.completed = false;
-      input.style.color = 'black';
-      li.classList.remove('remove');
+      component();
     }
-  });
-  li.appendChild(checkbox);
-  li.appendChild(label);
-  li.appendChild(br);
-  label.appendChild(input);
-  label.appendChild(image);
-  ul.appendChild(li);
-  image.addEventListener('click', () => {
-    ToDoArray = ToDoArray.filter((el) => el !== element);
-    ul.removeChild(li);
-    localStorage.setItem('ToDoArray', JSON.stringify(ToDoArray));
-  });
-}
-if (ToDoArray) {
-  for (let i = 0; i < ToDoArray.length; i += 1) {
-    displayOnScreen(ToDoArray[i]);
-  }
-}
-document.querySelector('#Add').addEventListener('change', () => {
-  const index = ToDoArray.length + 1;
-  const description = document.querySelector('#Add').value;
-  const obj = { description, index };
-  ToDoArray.push(new CreateOb(obj));
-  document.querySelector('#Add').value = '';
-  document.querySelector('.Activity-list').classList.remove('hidden');
-  displayOnScreen(ToDoArray[index - 1], index);
-  localStorage.setItem('ToDoArray', JSON.stringify(ToDoArray));
-});
-document.querySelector('#whatToDo').addEventListener('change', () => {
-  title = document.querySelector('#whatToDo').value;
-  localStorage.setItem('title', JSON.stringify(title));
-});
-document.querySelector('#removeAll').addEventListener('click', () => {
-  ToDoArray = ToDoArray.filter((el) => el.completed === false);
-  document.querySelector('.form_').innerHTML = '';
-  if (ToDoArray.length) {
-    for (let i = 0; i < ToDoArray.length; i += 1) {
-      displayOnScreen(ToDoArray[i]);
-    }
-  }
-  if (!ToDoArray.length) {
-    document.querySelector('.Activity-list').classList.add('hidden');
-  } else {
-    document.querySelector('.Activity-list').classList.remove('hidden');
-  }
-  localStorage.setItem('ToDoArray', JSON.stringify(ToDoArray));
-});
+  };
+};
+
+onPageLoad();
