@@ -1,8 +1,7 @@
 # Awesome-books
-This project is a basic website that allows users to add/remove books from a list.
+This project is part of the 2nd Module 2 Block of Microverse curriculum. The main objective is to use webpack to bundle JavaScript, learn how to use proper ES6 syntax, use ES6 modules to write modular JavaScript, and learn how to use JavaScript objects and arrays and dynamically modify the DOM and add basic events. This will follow professional guidelines in responsive design.
 
-This project is part of the Microverse curriculum Module 2 Block 2. The main objective is of this is to understand how to use JavaScript objects and arrays dynamically and to modify the DOM and add basic events. This will follow professional guidlines in responsive design.
-
+This project will be a basic website that allows users to add, modify and remove a list of To Do tasks.
 
 # Built With
 
