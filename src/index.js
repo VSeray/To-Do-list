@@ -1,10 +1,9 @@
-import 'lodash';
 import './style.css';
 
 let ToDoArray = JSON.parse(localStorage.getItem('ToDoArray') || '[]');
 let title = JSON.parse(localStorage.getItem('title') || '');
 if (!ToDoArray.length) {
-  document.querySelector('.Activity-list').classList.add('hidden');
+ document.querySelector('.Activity-list').classList.add('hidden');
 } else {
   document.querySelector('.Activity-list').classList.remove('hidden');
 }
