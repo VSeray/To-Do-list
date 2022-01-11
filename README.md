@@ -5,13 +5,16 @@ This project will be a basic website that allows users to add, modify and remove
 
 # Built With
 
-    .HTML
-    .CSS
-    .HTML & CSS Linters
+.HTML
+
+.CSS
+
+.HTML & CSS Linters
+
+.Javascript
 
 
 # Getting Started
-
 
 Please get your browser update. To get a local copy up and running follow these simple steps.
 
@@ -27,7 +30,6 @@ start index.html
 
 
 # Authors
-
 
 👤 Author
 
