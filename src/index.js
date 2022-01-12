@@ -1,39 +1,24 @@
+import { isComp, checkBox } from './script';
+import {
+  listUpdate, addToDo, clearAll, clearAllComp, itemDelete, capitalize,
+} from './addremove';
 import './style.css';
 
-let dataList = [
-  {
-    index: 0,
-    description: 'Wash The Dishes',
-    completed: false,
-  },
-  {
-    index: 1,
-    description: 'Read For 30 mins',
-    completed: false,
-  },
-];
+let dataList = [];
 
-const index = () => {
-  for (let i = 0; i < dataList.length; i + 1) {
-    dataList[i].index = i;
+const index = (dataList) => {
+  for (let i = 0; i < dataList.length; i++) { /* eslint-disable-line no-plusplus */
+    dataList[i].index = i + i;
   }
+
+  return dataList;
 };
 
-const saveToLocalStorage = () => {
+const saveToLocalStorage = (dataList) => {
   localStorage.setItem('todo_list', JSON.stringify(dataList));
 };
 
-const addToDo = (input) => {
-  const dataObj = {
-    index: 0,
-    description: '',
-    completed: false,
-  };
-
-  dataObj.description = input;
-  dataList.push(dataObj);
-  index();
-  saveToLocalStorage();
+const refreshPage = () => {
   window.location.reload();
 };
 
@@ -53,6 +38,8 @@ const component = () => {
   element.appendChild(clear);
   todoContainer.appendChild(element);
 
+  clearAll(clear, dataList, saveToLocalStorage, refreshPage);
+
   element = document.createElement('li');
   element.className = 'todo-item';
 
@@ -69,39 +56,51 @@ const component = () => {
   todoContainer.appendChild(element);
 
   addItem.addEventListener('keydown', (e) => {
-    if (e.keyCode === 13) {
-      addToDo(addItem.value);
+    if (e.key === 'Enter') {
+      addToDo(addItem.value, dataList);
+      saveToLocalStorage(dataList);
+      refreshPage();
     }
   });
 
   btn.addEventListener('click', () => {
-    addToDo(addItem.value);
+    addToDo(addItem.value, dataList);
+    saveToLocalStorage(dataList);
+    refreshPage();
   });
 
-  dataList.forEach((todo) => {
-    element = document.createElement('li');
-    element.className = 'todo-item';
+  if (dataList.length !== 0) {
+    dataList.forEach((todo) => {
+      element = document.createElement('li');
+      element.className = 'todo-item';
 
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'checkbox';
-    checkbox.checked = todo.completed;
-    element.appendChild(checkbox);
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'checkbox';
+      checkbox.checked = todo.completed;
+      element.appendChild(checkbox);
 
-    const description = document.createElement('textarea');
-    description.className = 'description';
-    description.rows = 'auto';
-    description.value = todo.description.toLowerCase().charAt(0).toUpperCase();
-    description.value += todo.description.slice(1);
-    element.appendChild(description);
+      const description = document.createElement('textarea');
+      description.className = 'description';
+      description.rows = 'auto';
+      description.value = capitalize(todo.description);
+      element.appendChild(description);
 
-    const taskButton = document.createElement('button');
-    taskButton.className = 'task-button';
-    taskButton.innerHTML = '<i class=\'ellipsis vertical icon\'></i>';
-    element.appendChild(taskButton);
+      const taskButton = document.createElement('button');
+      taskButton.className = 'task-button';
+      taskButton.innerHTML = '<i class=\'ellipsis vertical icon\'></i>';
+      element.appendChild(taskButton);
 
-    todoContainer.appendChild(element);
-  });
+      checkBox(checkbox, todo, dataList, saveToLocalStorage, refreshPage);
+      isComp(todo.completed, description);
+
+      todoContainer.appendChild(element);
+    });
+  }
+
+  listUpdate(dataList, saveToLocalStorage, refreshPage);
+
+  itemDelete(dataList, index, saveToLocalStorage, refreshPage);
 
   element = document.createElement('li');
 
@@ -110,9 +109,11 @@ const component = () => {
   clearCompleted.innerHTML = 'Clear all completed';
   element.appendChild(clearCompleted);
   todoContainer.appendChild(element);
+
+  clearAllComp(clearCompleted, dataList, index, saveToLocalStorage, refreshPage);
 };
 
-const onPageLoad = () => {
+const pageLoad = () => {
   window.onload = () => {
     if (localStorage.getItem('todo_list') !== null) {
       dataList = JSON.parse(localStorage.getItem('todo_list'));
@@ -123,4 +124,4 @@ const onPageLoad = () => {
   };
 };
 
-onPageLoad();
+pageLoad();
