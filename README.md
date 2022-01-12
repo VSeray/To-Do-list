@@ -5,14 +5,34 @@ This project will be a basic website that allows users to add, modify and remove
 
 # Built With
 
-.HTML
+. HTML
 
 .CSS
-
-.HTML & CSS Linters
-
+    
 .Javascript
+    
+.HTML& CSS & Javaascript Linters
+    
+.Git
+    
+.Es6
+    
+.WebPack
 
+# Test
+
+Download all the dependencies run:
+
+npm install
+
+# Run webpack server
+
+npm run start
+
+
+# Run build
+
+npm run build
 
 # Getting Started
 
@@ -23,8 +43,6 @@ Run the command below from the Terminal:
 navigate to your projects folder
 
 run git clone (https://github.com/VSeray/To-Do-list.git) in your terminals
-
-run cd microverse_portfolio
 
 start index.html
 
