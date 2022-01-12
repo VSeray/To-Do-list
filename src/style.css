@@ -75,8 +75,9 @@ body {
   padding: 5px;
   font-size: 15px;
   border: none;
-  color: #414141;
+  color: #8b6868;
   background: none;
+  cursor: pointer;
 }
 
 .clear-completed {
@@ -86,6 +87,7 @@ body {
   color: #414141;
   border: none;
   background: #f6f6f6;
+  cursor: pointer;
 }
 
 .clear:hover i,
